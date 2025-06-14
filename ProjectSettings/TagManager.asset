@@ -2,8 +2,30 @@
 %TAG !u! tag:unity3d.com,2011:
 --- !u!78 &1
 TagManager:
-  serializedVersion: 2
-  tags: []
+  serializedVersion: 3
+  tags:
+  - tank
+  - Ground
+  - car
+  - hide
+  - cop
+  - goal
+  - CinemachineTarget
+  - Checkpoint
+  - Fire
+  - PlantInfo
+  - wp
+  - agent
+  - Lounge
+  - WaitingArea
+  - Home
+  - Door
+  - Reception
+  - Cubicle
+  - RegisterPoint
+  - Office
+  - Toilet
+  - Puddle
   layers:
   - Default
   - TransparentFX
@@ -50,27 +72,3 @@ TagManager:
   - Light Layer 5
   - Light Layer 6
   - Light Layer 7
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
