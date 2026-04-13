@@ -1,5 +1,6 @@
 using Unity.AI.Navigation;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class UIWorld : MonoBehaviour
 {
@@ -7,7 +8,8 @@ public class UIWorld : MonoBehaviour
 
     private GameObject focusObject;
     public GameObject hospital;
-    public GameObject newResourcePrefab;
+    public GameObject[] allResources;
+    private GameObject newResourcePrefab;
     public NavMeshSurface surface;
     private Vector3 goalPos;
 
@@ -20,6 +22,8 @@ public class UIWorld : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
+            if (EventSystem.current.IsPointerOverGameObject()) return;
+
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
 
@@ -36,14 +40,19 @@ public class UIWorld : MonoBehaviour
                 focusRD = resource.data;
             }
 
-            else
+            else if (newResourcePrefab != null)
             {
                 goalPos = hit.point;
 
                 focusObject = Instantiate(newResourcePrefab, goalPos, Quaternion.identity);
+
+                focusRD = focusObject.GetComponent<Resource>().data;
             }
 
-            focusObject.GetComponent<Collider>().enabled = false;
+            if (focusObject)
+            {
+                focusObject.GetComponent<Collider>().enabled = false;
+            }
         }
 
         else if (Input.GetMouseButtonUp(0) && focusObject)
@@ -68,10 +77,11 @@ public class UIWorld : MonoBehaviour
 
         else if (Input.GetMouseButton(0) && focusObject)
         {
+            int layerMask = 1 << 6;
             Ray rayMove = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hitMove;
 
-            if (!Physics.Raycast(rayMove, out hitMove)) return;
+            if (!Physics.Raycast(rayMove, out hitMove, Mathf.Infinity, layerMask)) return;
 
             if (!offsetCalc)
             {
@@ -93,6 +103,16 @@ public class UIWorld : MonoBehaviour
         {
             focusObject.transform.Rotate(0, -90, 0);
         }
+    }
+
+    public void ActivateToilet()
+    {
+        newResourcePrefab = allResources[0];
+    }
+
+    public void ActivateCubicle()
+    {
+        newResourcePrefab = allResources[1];
     }
 
     public void MouseOnHoverTrash()
